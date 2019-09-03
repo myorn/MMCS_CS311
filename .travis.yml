@@ -1,30 +1,56 @@
 language: csharp
 solution: Compilers.sln
 mono:
-- latest
+  - latest
 install:
-- sudo apt-get install nunit-console
-- nuget restore Compilers.sln
+  - sudo apt-get install nunit-console
+  - nuget restore Compilers.sln
 script:
-- msbuild /p:TargetFrameworkVersion="v4.0"
-- nunit-console -labels TestSimpleLexer/bin/Debug/TestSimpleLexer.dll
-- mono NunitReportParser/bin/Debug/NunitReportParser.exe ${TRAVIS_BUILD_DIR} ${TRAVIS_REPO_SLUG}
-- nunit-console -labels TestLexer/bin/Debug/TestLexer.dll
-- mono NunitReportParser/bin/Debug/NunitReportParser.exe ${TRAVIS_BUILD_DIR} ${TRAVIS_REPO_SLUG}
-- nunit-console -labels TestGeneratedLexer/bin/Debug/TestGeneratedLexer.dll
-- mono NunitReportParser/bin/Debug/NunitReportParser.exe ${TRAVIS_BUILD_DIR} ${TRAVIS_REPO_SLUG}
-- nunit-console -labels TestDescentParser/bin/Debug/TestDescentParser.dll
-- mono NunitReportParser/bin/Debug/NunitReportParser.exe ${TRAVIS_BUILD_DIR} ${TRAVIS_REPO_SLUG}
-- nunit-console -labels TestGeneratedParser/bin/Debug/TestGeneratedParser.dll
-- mono NunitReportParser/bin/Debug/NunitReportParser.exe ${TRAVIS_BUILD_DIR} ${TRAVIS_REPO_SLUG}
-- nunit-console -labels TestASTParser/bin/Debug/TestASTParser.dll
-- mono NunitReportParser/bin/Debug/NunitReportParser.exe ${TRAVIS_BUILD_DIR} ${TRAVIS_REPO_SLUG}
-- nunit-console -labels TestVisitors/bin/Debug/TestVisitors.dll
-- mono NunitReportParser/bin/Debug/NunitReportParser.exe ${TRAVIS_BUILD_DIR} ${TRAVIS_REPO_SLUG}
-- nunit-console -labels TestCodeGenerator/bin/Debug/TestCodeGenerator.dll
-- mono NunitReportParser/bin/Debug/NunitReportParser.exe ${TRAVIS_BUILD_DIR} ${TRAVIS_REPO_SLUG}
+  - msbuild /p:TargetFrameworkVersion="v4.0"
+  - nunit-console -labels TestSimpleLexer/bin/Debug/TestSimpleLexer.dll
+  - mono NunitReportParser/bin/Debug/NunitReportParser.exe ${TRAVIS_BUILD_DIR} ${TRAVIS_REPO_SLUG}
+  - mv TestResult.xml SimpleLexerTestResult.xml 
+  - nunit-console -labels TestLexer/bin/Debug/TestLexer.dll
+  - mono NunitReportParser/bin/Debug/NunitReportParser.exe ${TRAVIS_BUILD_DIR} ${TRAVIS_REPO_SLUG}
+  - mv TestResult.xml LexerTestResult.xml
+  - nunit-console -labels TestGeneratedLexer/bin/Debug/TestGeneratedLexer.dll
+  - mono NunitReportParser/bin/Debug/NunitReportParser.exe ${TRAVIS_BUILD_DIR} ${TRAVIS_REPO_SLUG}
+  - mv TestResult.xml GeneratedLexerTestResult.xml
+  - nunit-console -labels TestDescentParser/bin/Debug/TestDescentParser.dll
+  - mono NunitReportParser/bin/Debug/NunitReportParser.exe ${TRAVIS_BUILD_DIR} ${TRAVIS_REPO_SLUG}
+  - mv TestResult.xml DescentParserTestResult.xml
+  - nunit-console -labels TestGeneratedParser/bin/Debug/TestGeneratedParser.dll
+  - mono NunitReportParser/bin/Debug/NunitReportParser.exe ${TRAVIS_BUILD_DIR} ${TRAVIS_REPO_SLUG}
+  - mv TestResult.xml GeneratedParserTestResult.xml
+  - nunit-console -labels TestASTParser/bin/Debug/TestASTParser.dll
+  - mono NunitReportParser/bin/Debug/NunitReportParser.exe ${TRAVIS_BUILD_DIR} ${TRAVIS_REPO_SLUG}
+  - mv TestResult.xml ASTParserTestResult.xml
+  - nunit-console -labels TestVisitors/bin/Debug/TestVisitors.dll
+  - mono NunitReportParser/bin/Debug/NunitReportParser.exe ${TRAVIS_BUILD_DIR} ${TRAVIS_REPO_SLUG}
+  - mv TestResult.xml VisitorsTestResult.xml
+  - nunit-console -labels TestCodeGenerator/bin/Debug/TestCodeGenerator.dll
+  - mono NunitReportParser/bin/Debug/NunitReportParser.exe ${TRAVIS_BUILD_DIR} ${TRAVIS_REPO_SLUG}
+  - mv TestResult.xml CodeGeneratorTestResult.xml
+before_deploy:
+  # Set up git user name and tag this commit
+  - git config --local user.name "Travis Travisovich"
+  - git config --local user.email "travis@hell.no"
+  - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
+  - git tag $TRAVIS_TAG
 deploy:
   provider: releases
   api_key:
     secure: YGjIFVvXmc+RAh3pNBxbVkwsw9JD3C3/1QQVM233fZXOkFk2/paX+ZFC2kAb7duWOLj8Liofwl0MU4Q1kGxy9fZdSE+oZqduNGJS4Ex9i+p4u24BnytODyuIpvpZGeWYhP2IrqlWvF3SLb2Y3u3c6SU+TBEajDODlxEjcCRxNls3dotIZySFUaYkLANstaG04xestOa1u3D02MpBwvk/3P90dm98Nep3d0vuTkzqJrnOsCYN6XENabigVgnsGqco9OIcurHQp8gdxVj1nccuVgkOu6AXz62k+b1S2HFc9OiIYdDLdJ2dHas6jpioJ/7NPI1br1qbF+4lEvCTJOBVgcqfb4JlmFfs9NbkEtQgg3gB4z1JD7Y55JJNZWMmuRANNS30sANVkGEMdQeSqT7WZ1EseNomRqgFZXMUxccsHUcs9SUvdCMJbPCVMjb6Z/aEcRC48j6KBu6r+nXid9zX6l65RCfp262tToAU5cBndUyodU/eESQNRlRsw9YpgV8/C+I82WkBOyje/FWo/lLQW/r95ArH5+YbPiIoVdpexDUDT5cpz/sso+NdMqUkwmgX5kqrXNFXY16DAMKiSViHwy8wrJ+1iyq/38gOgii+KqSyFUEUeRlmEmETdVPDkaGdGP08lCiiS9cm5He7B1akrep8kHBjFgwvD6eP2OcMTL0=
-  file: TestResult.xml
+  file: 
+    - LexerTestResult.xml
+    - SimpleLexerTestResult.xml
+    - GeneratedLexerTestResult.xml
+    - DescentParserTestResult.xml
+    - GeneratedParserTestResult.xml
+    - ASTParserTestResult.xml
+    - VisitorsTestResult.xml
+    - CodeGeneratorTestResult.xml
+  skip_cleanup: true
+  draft: true
+  overwrite: true
+
