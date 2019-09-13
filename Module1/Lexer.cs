@@ -67,15 +67,18 @@ namespace Lexer
 
         public override bool Parse()
         {
+			bool flag = false;
             NextCh();
             if (currentCh == '+' || currentCh == '-')
             {
+				flag = true;
                 NextCh();
             }
-        
+			int i;
             if (char.IsDigit(currentCh))
             {
-                NextCh();
+				i = currentCharValue - 48;
+				NextCh();
             }
             else
             {
@@ -84,6 +87,7 @@ namespace Lexer
 
             while (char.IsDigit(currentCh))
             {
+				i = i * 10 + (currentCharValue - 48);
                 NextCh();
             }
 
@@ -93,7 +97,8 @@ namespace Lexer
                 Error();
             }
 
-            return true;
+			if (flag) i = 0 - i;
+            return i;
 
         }
     }
