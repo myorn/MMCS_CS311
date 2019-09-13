@@ -74,7 +74,7 @@ namespace Lexer
 				flag = true;
                 NextCh();
             }
-			int i;
+			int i = 0;
             if (char.IsDigit(currentCh))
             {
 				i = currentCharValue - 48;
@@ -98,7 +98,8 @@ namespace Lexer
             }
 
 			if (flag) i = 0 - i;
-            return i;
+			parseResult = i;
+            return true;
 
         }
     }
