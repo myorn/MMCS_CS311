@@ -69,11 +69,23 @@ namespace Lexer
         {
 			bool flag = false;
             NextCh();
-            if (currentCh == '+' || currentCh == '-')
-            {
-				flag = true;
-                NextCh();
-            }
+			if (currentCh == '+' || currentCh == '-')
+			{
+				if (currentCh == '-') flag = true;
+				NextCh();
+			}
+			else
+			{
+				if (char.IsLetter(currentCh) || currentCh == '_')
+				{
+					string a = currentCh.ToString();
+
+				}
+				else
+				{
+					Error();
+				}
+			}
 			int i = 0;
             if (char.IsDigit(currentCh))
             {
@@ -120,9 +132,31 @@ namespace Lexer
         }
 
         public override bool Parse()
-        { 
-            throw new NotImplementedException();
-        }
+        {
+			NextCh();
+			if (char.IsLetter(currentCh) || currentCh == '_')
+			{
+				string a = currentCh.ToString();
+				NextCh();
+				while (char.IsLetterOrDigit(currentCh) || currentCh == '_')
+				{
+					a += currentCh.ToString();
+					NextCh();
+				}
+
+				if (currentCharValue != -1)
+				{
+					Error();
+				}
+				return true;
+			}
+			else
+			{
+				Error();
+			}
+			return true;
+			//throw new NotImplementedException();
+		}
        
     }
 
