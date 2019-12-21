@@ -2,15 +2,30 @@
 
 namespace ProgramTree
 {
-    public enum AssignType { Assign, AssignPlus, AssignMinus, AssignMult, AssignDivide };
+	public enum AssignType { Assign, AssignPlus, AssignMinus, AssignMult, AssignDivide };
+	public enum OpType { PLUS, MINUS, MULT, DELIM, LT, GT, LEQ, GEQ};
 
-    public class Node // базовый класс для всех узлов    
-    {
-    }
+	public class Node // базовый класс для всех узлов    
+	{
+	}
 
-    public class ExprNode : Node // базовый класс для всех выражений
-    {
-    }
+	public class ExprNode : Node // базовый класс для всех выражений
+	{
+
+	}
+
+	public class BinaryOperation : ExprNode
+	{
+		public ExprNode Left;
+		public ExprNode Right;
+		public OpType OperationType;
+		public BinaryOperation(ExprNode left, ExprNode right, OpType operationType)
+		{
+			Left = left;
+			Right = right;
+			OperationType = operationType;
+		}
+	}
 
     public class IdNode : ExprNode
     {
@@ -24,7 +39,13 @@ namespace ProgramTree
         public IntNumNode(int num) { Num = num; }
     }
 
-    public class StatementNode : Node // базовый класс для всех операторов
+	public class DoubleNumNode : ExprNode
+	{
+		public double Num { get; set; }
+		public DoubleNumNode(double num) { Num = num; }
+	}
+
+	public class StatementNode : Node // базовый класс для всех операторов
     {
     }
 
@@ -41,7 +62,29 @@ namespace ProgramTree
         }
     }
 
-    public class CycleNode : StatementNode
+	public class RepeatNode : StatementNode
+	{
+		public BlockNode Statements { get; set; }
+		public ExprNode Expr { get; set; }
+		public RepeatNode(BlockNode statements, ExprNode expr)
+		{
+			Statements = statements;
+			Expr = expr;
+		}
+	}
+
+	public class WhileNode : StatementNode
+	{
+		public BlockNode Statements { get; set; }
+		public ExprNode Expr { get; set; }
+		public WhileNode(ExprNode expr, BlockNode statements)
+		{
+			Statements = statements;
+			Expr = expr;
+		}
+	}
+
+	public class CycleNode : StatementNode
     {
         public ExprNode Expr { get; set; }
         public StatementNode Stat { get; set; }

@@ -8,9 +8,23 @@ namespace SimpleLang.Visitors
 {
     public class CommonlyUsedVarVisitor : AutoVisitor
     {
-        public string mostCommonlyUsedVar()
+		Dictionary<String, int> myMap = new Dictionary<String, int>();
+
+		public string mostCommonlyUsedVar()
         {
-            throw new NotImplementedException();
-        }
-    }
+			return myMap.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
+		}
+
+		public override void VisitVarDefNode(VarDefNode w)
+		{
+			foreach (var v in w.vars)
+				if (myMap.ContainsKey(v.Name))
+				{
+					myMap[v.Name]++;
+				}
+				else {
+					myMap[v.Name] = 1;
+				}
+		}
+	}
 }

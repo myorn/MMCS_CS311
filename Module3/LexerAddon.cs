@@ -41,14 +41,37 @@ namespace  GeneratedLexer
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
 
             int tok = 0;
+			double sumIdLength = 0;
             do {
                 tok = myScanner.yylex();
-
-                if (tok == (int)Tok.EOF)
-                {
-                    break;
-                }
-            } while (true);
+				if (tok == (int)Tok.EOF)
+				{
+					break;
+				}
+				else if (tok == (int)Tok.ID)
+				{
+					++idCount;
+					String id = myScanner.yytext;
+					sumIdLength += id.Length;
+					if (id.Length < minIdLength)
+					{
+						minIdLength = id.Length;
+					}
+					if (id.Length > maxIdLength)
+					{
+						maxIdLength = id.Length;
+					}
+				}
+				else if (tok == (int)Tok.INUM)
+				{
+					sumInt += myScanner.LexValueInt;
+				}
+				else if (tok == (int)Tok.RNUM)
+				{
+					sumDouble += myScanner.LexValueDouble;
+				}
+			} while (true);
+			avgIdLength = sumIdLength / idCount;
         }
     }
 }

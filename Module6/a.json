@@ -1,0 +1,95 @@
+{
+  "$type": "ProgramTree.BlockNode, SimpleLang",
+  "StList": {
+    "$type": "System.Collections.Generic.List`1[[ProgramTree.StatementNode, SimpleLang]], mscorlib",
+    "$values": [
+      {
+        "$type": "ProgramTree.AssignNode, SimpleLang",
+        "Id": {
+          "$type": "ProgramTree.IdNode, SimpleLang",
+          "Name": "b"
+        },
+        "Expr": {
+          "$type": "ProgramTree.IntNumNode, SimpleLang",
+          "Num": 91
+        },
+        "AssOp": 0
+      },
+      {
+        "$type": "ProgramTree.AssignNode, SimpleLang",
+        "Id": {
+          "$type": "ProgramTree.IdNode, SimpleLang",
+          "Name": "a"
+        },
+        "Expr": {
+          "$type": "ProgramTree.IntNumNode, SimpleLang",
+          "Num": 0
+        },
+        "AssOp": 0
+      },
+      {
+        "$type": "ProgramTree.AssignNode, SimpleLang",
+        "Id": {
+          "$type": "ProgramTree.IdNode, SimpleLang",
+          "Name": "a"
+        },
+        "Expr": {
+          "$type": "ProgramTree.BinaryOperation, SimpleLang",
+          "Left": {
+            "$type": "ProgramTree.IdNode, SimpleLang",
+            "Name": "b"
+          },
+          "Right": {
+            "$type": "ProgramTree.IntNumNode, SimpleLang",
+            "Num": 0
+          },
+          "OperationType": 2
+        },
+        "AssOp": 0
+      },
+      {
+        "$type": "ProgramTree.WhileNode, SimpleLang",
+        "Statements": {
+          "$type": "ProgramTree.BlockNode, SimpleLang",
+          "StList": {
+            "$type": "System.Collections.Generic.List`1[[ProgramTree.StatementNode, SimpleLang]], mscorlib",
+            "$values": [
+              {
+                "$type": "ProgramTree.AssignNode, SimpleLang",
+                "Id": {
+                  "$type": "ProgramTree.IdNode, SimpleLang",
+                  "Name": "a"
+                },
+                "Expr": {
+                  "$type": "ProgramTree.BinaryOperation, SimpleLang",
+                  "Left": {
+                    "$type": "ProgramTree.IdNode, SimpleLang",
+                    "Name": "a"
+                  },
+                  "Right": {
+                    "$type": "ProgramTree.IntNumNode, SimpleLang",
+                    "Num": 1
+                  },
+                  "OperationType": 0
+                },
+                "AssOp": 0
+              }
+            ]
+          }
+        },
+        "Expr": {
+          "$type": "ProgramTree.BinaryOperation, SimpleLang",
+          "Left": {
+            "$type": "ProgramTree.IdNode, SimpleLang",
+            "Name": "a"
+          },
+          "Right": {
+            "$type": "ProgramTree.IntNumNode, SimpleLang",
+            "Num": 4
+          },
+          "OperationType": 4
+        }
+      }
+    ]
+  }
+}

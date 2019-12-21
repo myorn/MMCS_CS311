@@ -15,6 +15,16 @@ namespace SimpleLang.Visitors
             from = _from;
             to = _to;
         }
-       
-    }
+
+		public override void VisitVarDefNode(VarDefNode w)
+		{
+			foreach (var v in w.vars)
+			{
+				if (from.Equals(v.Name)) {
+					v.Name = to;
+				}
+				v.Visit(this);
+			}
+		}
+	}
 }

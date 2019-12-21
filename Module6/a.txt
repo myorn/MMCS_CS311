@@ -1,10 +1,9 @@
 begin
-  b := 2;
-  a := 3;
-  a := b;
-  cycle 3
+  b := 91;
+  a := 0;
+  a := b * 0;
+  while (a < 4)
   begin
-    a := c;
-    c := 1
+    a := a + 1
   end
 end
