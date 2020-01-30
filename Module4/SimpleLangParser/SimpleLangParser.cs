@@ -29,12 +29,15 @@ namespace SimpleLangParser
 
         public void Expr() 
         {
+            // здесь мы проверяем на выржение
             if (l.LexKind == Tok.ID || l.LexKind == Tok.INUM)
             {
+                // если число, то дальше ожидаем плюс или минус
                 l.NextLexem();
 				if (l.LexKind == Tok.PLUS || l.LexKind == Tok.MINUS)
 				{
 					l.NextLexem();
+                    // рекуррентно вызовем функию для того, чтобы продолжить проверку 
 					Expr();
 				}
             }
@@ -59,6 +62,7 @@ namespace SimpleLangParser
 
 		public void For()
 		{
+            // цикл for, выглядит как паскалевский
 			if (l.LexKind != Tok.FOR)
 			{
 				SyntaxError("for expected");
@@ -89,6 +93,7 @@ namespace SimpleLangParser
 
 		public void StatementList() 
         {
+            // список высказываний через запятую
             Statement();
             while (l.LexKind == Tok.SEMICOLON)
             {
@@ -99,6 +104,7 @@ namespace SimpleLangParser
 
         public void Statement() 
         {
+            // высказывания разных типов
             switch (l.LexKind)
             {
                 case Tok.BEGIN:
@@ -131,6 +137,7 @@ namespace SimpleLangParser
 
         public void Block() 
         {
+            // блок begin end
             l.NextLexem();    // пропуск begin
             StatementList();
             if (l.LexKind == Tok.END)
@@ -146,6 +153,7 @@ namespace SimpleLangParser
 
         public void Cycle() 
         {
+            // циклический обход
             l.NextLexem();  // пропуск cycle
             Expr();
             Statement();

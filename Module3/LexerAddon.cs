@@ -37,7 +37,7 @@ namespace  GeneratedLexer
 
         public void Lex()
         {
-            // ����� ������������ ����� �������������� � ������������ � ������� 3.14 (� �� 3,14 ��� � ������� Culture)
+            // ����� ������������ ����� �������������� � ������������ � ������� 3.14 (� �� 3,14 ��� � ������� Culture)
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
 
             int tok = 0;
@@ -50,9 +50,12 @@ namespace  GeneratedLexer
 				}
 				else if (tok == (int)Tok.ID)
 				{
+                    // считаем сколько переменных встретилось
 					++idCount;
 					String id = myScanner.yytext;
+                    // считаем их суммарную длину 
 					sumIdLength += id.Length;
+                    // находим минимум и максимум длины
 					if (id.Length < minIdLength)
 					{
 						minIdLength = id.Length;
@@ -62,15 +65,18 @@ namespace  GeneratedLexer
 						maxIdLength = id.Length;
 					}
 				}
+                // суммируем целые числа
 				else if (tok == (int)Tok.INUM)
 				{
 					sumInt += myScanner.LexValueInt;
 				}
+                // суммируем числа с плавающей точкой
 				else if (tok == (int)Tok.RNUM)
 				{
 					sumDouble += myScanner.LexValueDouble;
 				}
 			} while (true);
+            // вычисляем среднюю длину названия переменной
 			avgIdLength = sumIdLength / idCount;
         }
     }
